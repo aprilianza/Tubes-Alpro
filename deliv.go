@@ -82,8 +82,10 @@ func tambahPengiriman(A *arrdeliv,n *int){
 			fmt.Print("Masukan id : ")
 			fmt.Scan(&antrian)
 			idx = cariData(*A,*n,antrian)
-			if idx == -1 {
+			if idx == -1 && antrian > 0{
 				antrimenu = false
+			}else if idx <= 0 || antrian == 0{
+				fmt.Println("Id harus lebih dari 0")
 			}else{
 				fmt.Println("Id sudah ada")
 			}
