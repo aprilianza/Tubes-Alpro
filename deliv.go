@@ -26,7 +26,7 @@ func main(){
 		}else if pilih == 4{
 			cariStatus(listPengiriman,nPengiriman)
 		}else if pilih == 5 {
-			
+			sortir(&listPengiriman,nPengiriman)
 		}else if pilih == 6 {
 			menu = false
 		}
@@ -68,12 +68,15 @@ func tambahPengiriman(A *arrdeliv,n *int){
 			fmt.Scan(&statusDeliv)
 			if statusDeliv == 1 {
 				A[*n].status = "Diproses"
+				A[*n].statusValue = 1
 				delivmenu = false
 			}else if statusDeliv == 2{
 				A[*n].status = "Dikirim"
+				A[*n].statusValue = 2
 				delivmenu = false
 			}else if statusDeliv == 3{
 				A[*n].status = "Diterima"
+				A[*n].statusValue = 3
 				delivmenu = false
 			}
 		}
@@ -116,12 +119,15 @@ func editData(A *arrdeliv, n int){
 				fmt.Scan(&statusDeliv)
 				if statusDeliv == 1 {
 					A[idx].status = "Diproses"
+					A[idx].statusValue = 1
 					delivmenu = false
 				}else if statusDeliv == 2{
 					A[idx].status = "Dikirim"
+					A[idx].statusValue = 2
 					delivmenu = false
 				}else if statusDeliv == 3{
 					A[idx].status = "Diterima"
+					A[idx].statusValue = 3
 					delivmenu = false
 				}
 			}
@@ -207,5 +213,17 @@ func printStatusDicari(A arrdeliv,n int,x string){
 }
 
 func sortir(A *arrdeliv, n int){
-	
+	var pass,idx,i int
+	var temp delivery
+	for pass = 2; pass <= n; pass++ {
+		idx = pass - 1
+		for i = pass; i <= n; i++ {
+			if A[idx].statusValue > A[i].statusValue {
+				idx = i
+			}
+		}
+		temp = A[pass-1]
+		A[pass - 1] = A[idx]
+		A[idx] = temp
+	}
 }
