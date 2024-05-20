@@ -3,7 +3,7 @@ import "fmt"
 const NMAX = 1024
 type delivery struct{
 	namaPenerima,alamat,status string
-	id, statusValue int
+	id int
 }
 type arrdeliv[NMAX] delivery
 func main(){
@@ -50,10 +50,11 @@ func banner(){
 
 func tambahPengiriman(A *arrdeliv,n *int){
 	var penerima, alamatPenerima,tambah string
-	var statusDeliv int
+	var statusDeliv,antrian,idx int
 	var input bool = true
 	for input {
 		var delivmenu bool = true
+		var antrimenu bool = true
 		*n++
 		fmt.Print("Masukan nama penerima: ")
 		fmt.Scan(&penerima)
@@ -68,19 +69,26 @@ func tambahPengiriman(A *arrdeliv,n *int){
 			fmt.Scan(&statusDeliv)
 			if statusDeliv == 1 {
 				A[*n].status = "Diproses"
-				A[*n].statusValue = 1
 				delivmenu = false
 			}else if statusDeliv == 2{
 				A[*n].status = "Dikirim"
-				A[*n].statusValue = 2
 				delivmenu = false
 			}else if statusDeliv == 3{
 				A[*n].status = "Diterima"
-				A[*n].statusValue = 3
 				delivmenu = false
 			}
 		}
-		A[*n].id = *n
+		for antrimenu {
+			fmt.Print("Masukan id : ")
+			fmt.Scan(&antrian)
+			idx = cariData(*A,*n,antrian)
+			if idx == -1 {
+				antrimenu = false
+			}else{
+				fmt.Println("Id sudah ada")
+			}
+		}
+		A[*n].id = antrian
 		A[*n].namaPenerima = penerima
 		A[*n].alamat = alamatPenerima
 		fmt.Print("Apakah masih ingin menambah Pengiriman (Y/N) : ")
@@ -119,15 +127,12 @@ func editData(A *arrdeliv, n int){
 				fmt.Scan(&statusDeliv)
 				if statusDeliv == 1 {
 					A[idx].status = "Diproses"
-					A[idx].statusValue = 1
 					delivmenu = false
 				}else if statusDeliv == 2{
 					A[idx].status = "Dikirim"
-					A[idx].statusValue = 2
 					delivmenu = false
 				}else if statusDeliv == 3{
 					A[idx].status = "Diterima"
-					A[idx].statusValue = 3
 					delivmenu = false
 				}
 			}
@@ -149,21 +154,21 @@ func cariData(A arrdeliv,n,x int)int{
 	return idx
 }
 
-func deleteData(A *arrdeliv, n *int){
+func deleteData(A *arrdeliv, n *int) {
 	var deleteMenu bool
 	var idDelete, idx int
 	deleteMenu = true
-	for deleteMenu{
+	for deleteMenu {
 		fmt.Print("Masukan id yang ingin dihapus : ")
 		fmt.Scan(&idDelete)
-		idx = cariData(*A,*n,idDelete)
-		if idx != -1{
-			*n--
+		idx = cariData(*A, *n, idDelete)
+		if idx != -1 {
 			for i := idx; i < *n; i++ {
 				A[i] = A[i+1]
 			}
+			*n--
 			deleteMenu = false
-		}else{
+		} else {
 			fmt.Println("Id tidak ditemukan")
 		}
 	}
@@ -218,7 +223,7 @@ func sortir(A *arrdeliv, n int){
 	for pass = 2; pass <= n; pass++ {
 		idx = pass - 1
 		for i = pass; i <= n; i++ {
-			if A[idx].statusValue > A[i].statusValue {
+			if A[idx].id > A[i].id {
 				idx = i
 			}
 		}
