@@ -8,7 +8,8 @@ type delivery struct{
 type arrdeliv[NMAX] delivery
 func main(){
 	var menu bool
-	var pilih,nPengiriman int
+	var nPengiriman int
+	var pilih string
 	var listPengiriman arrdeliv
 	nPengiriman = 0
 	menu = true
@@ -17,17 +18,17 @@ func main(){
 		printdata(listPengiriman,nPengiriman)
 		fmt.Print("(Menu utama) Masukan angka : ")
 		fmt.Scan(&pilih)
-		if pilih == 1 {
+		if pilih == "1" {
 			tambahPengiriman(&listPengiriman,&nPengiriman)
-		}else if pilih == 2{
+		}else if pilih == "2"{
 			editData(&listPengiriman,nPengiriman)
-		}else if pilih == 3{
+		}else if pilih == "3"{
 			deleteData(&listPengiriman,&nPengiriman)
-		}else if pilih == 4{
+		}else if pilih == "4"{
 			cariStatus(listPengiriman,nPengiriman)
-		}else if pilih == 5 {
+		}else if pilih == "5" {
 			sortir(&listPengiriman,nPengiriman)
-		}else if pilih == 6 {
+		}else if pilih == "6" {
 			menu = false
 		}
 	}
@@ -49,8 +50,10 @@ func banner(){
 }
 
 func tambahPengiriman(A *arrdeliv,n *int){
-	var penerima, alamatPenerima,tambah string
-	var statusDeliv,antrian,idx int
+	//I.S Terdefinisi array A dan banyak n array
+	//F.S Array A terisi
+	var penerima, alamatPenerima,tambah,statusDeliv string
+	var antrian,idx int
 	var input bool = true
 	for input {
 		var delivmenu bool = true
@@ -67,13 +70,13 @@ func tambahPengiriman(A *arrdeliv,n *int){
 		for delivmenu {
 			fmt.Print("Masukan pilihan status : ")
 			fmt.Scan(&statusDeliv)
-			if statusDeliv == 1 {
+			if statusDeliv == "1" {
 				A[*n].status = "Diproses"
 				delivmenu = false
-			}else if statusDeliv == 2{
+			}else if statusDeliv == "2"{
 				A[*n].status = "Dikirim"
 				delivmenu = false
-			}else if statusDeliv == 3{
+			}else if statusDeliv == "3"{
 				A[*n].status = "Diterima"
 				delivmenu = false
 			}
@@ -82,7 +85,7 @@ func tambahPengiriman(A *arrdeliv,n *int){
 			fmt.Print("Masukan id : ")
 			fmt.Scan(&antrian)
 			idx = cariData(*A,*n,antrian)
-			if idx == -1 && antrian > 0{
+			if idx == -1 && antrian > 0 {
 				antrimenu = false
 			}else if idx <= 0 || antrian == 0{
 				fmt.Println("Id harus lebih dari 0")
@@ -102,6 +105,8 @@ func tambahPengiriman(A *arrdeliv,n *int){
 }
 
 func printdata(A arrdeliv,n int){
+	//I.S Terdefinisi array A sebanyak n
+	//F.S Data pengiriman diprint
 	fmt.Println("Data pengiriman : ")
 	for i := 1; i <= n; i++ {
 		fmt.Printf("Id : %d | Nama penerima : %s | Alamat : %s | Status pengiriman : %s ",A[i].id,A[i].namaPenerima,A[i].alamat,A[i].status)
@@ -110,8 +115,11 @@ func printdata(A arrdeliv,n int){
 }
 
 func editData(A *arrdeliv, n int){
+	//I.S Terdefinisi array A sebanyak n
+	//F.S Status array terganti
 	var editData,delivmenu bool
-	var idEdit,idx,statusDeliv int
+	var idEdit,idx int
+	var statusDeliv string
 	editData = true
 	for editData{
 		delivmenu = true
@@ -127,13 +135,13 @@ func editData(A *arrdeliv, n int){
 			for delivmenu {
 				fmt.Print("Masukan pilihan status : ")
 				fmt.Scan(&statusDeliv)
-				if statusDeliv == 1 {
+				if statusDeliv == "1" {
 					A[idx].status = "Diproses"
 					delivmenu = false
-				}else if statusDeliv == 2{
+				}else if statusDeliv == "2"{
 					A[idx].status = "Dikirim"
 					delivmenu = false
-				}else if statusDeliv == 3{
+				}else if statusDeliv == "3"{
 					A[idx].status = "Diterima"
 					delivmenu = false
 				}
@@ -146,6 +154,8 @@ func editData(A *arrdeliv, n int){
 }
 
 func cariData(A arrdeliv,n,x int)int{
+	//I.S Terdefinisi array A sebanyak n dan x angka yang dicari
+	//F.S Mengembalikan index array
 	var idx int
 	idx = -1
 	for i := 1; i <= n; i++ {
@@ -157,6 +167,8 @@ func cariData(A arrdeliv,n,x int)int{
 }
 
 func deleteData(A *arrdeliv, n *int) {
+	//I.S terdefinisi array A sebayak n
+	//F.S Data terhapus
 	var deleteMenu bool
 	var idDelete, idx int
 	deleteMenu = true
@@ -177,8 +189,10 @@ func deleteData(A *arrdeliv, n *int) {
 }
 
 func cariStatus(A arrdeliv, n int){
+	//I.S Terdefinisi array A sebanyak n
+	//F.S Status yang ingin dicari terinput
 	var menu bool
-	var statusDicari int
+	var statusDicari string
 	menu = true
 	for menu{
 		fmt.Println("Pilih status delivery yang dicari : ")
@@ -187,13 +201,13 @@ func cariStatus(A arrdeliv, n int){
 		fmt.Println("3. Diterima")
 		fmt.Print("Masukan pilihan status : ")
 		fmt.Scan(&statusDicari)
-		if statusDicari == 1 {
+		if statusDicari == "1" {
 			printStatusDicari(A,n,"Diproses")
 			menu = false
-		}else if statusDicari == 2{
+		}else if statusDicari == "2"{
 			printStatusDicari(A,n,"Dikirim")
 			menu = false
-		}else if statusDicari == 3{
+		}else if statusDicari == "3"{
 			printStatusDicari(A,n,"Diterima")
 			menu = false
 		}
@@ -201,6 +215,8 @@ func cariStatus(A arrdeliv, n int){
 }
 
 func printStatusDicari(A arrdeliv,n int,x string){
+	//I.S Terdefinisi array A sebanyak n dan x status yang dicari
+	//F.S Status yang dicari terprint
 	var menu bool
 	var pilih string
 	menu = true
@@ -220,6 +236,8 @@ func printStatusDicari(A arrdeliv,n int,x string){
 }
 
 func sortir(A *arrdeliv, n int){
+	//I.S Terdefinisi array A sebanyak n
+	//F.S Array tersortir menurut id
 	var pass,idx,i int
 	var temp delivery
 	for pass = 2; pass <= n; pass++ {
