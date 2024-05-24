@@ -67,7 +67,7 @@ func tambahPengiriman(A *arrdeliv,n *int){
 		*n++
 		fmt.Print("Masukan nama penerima: ")
 		fmt.Scan(&penerima)
-		fmt.Print("Masukan alamat : ")
+		fmt.Print("Masukan alamat (mohon ganti spasi dengan '_'): ")
 		fmt.Scan(&alamatPenerima)
 		fmt.Println("Pilih status delivery : ")
 		fmt.Println("1. Diproses")
