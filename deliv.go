@@ -1,5 +1,10 @@
 package main
-import "fmt"
+import (
+    "fmt"
+    "os"
+    "os/exec"
+    "runtime"
+)
 const NMAX = 1024
 type delivery struct{
 	namaPenerima,alamat,status string
@@ -14,6 +19,7 @@ func main(){
 	nPengiriman = 0
 	menu = true
 	for menu {
+		clearline()
 		banner()
 		printdata(listPengiriman,nPengiriman)
 		fmt.Print("(Menu utama) Masukan angka : ")
@@ -104,14 +110,17 @@ func tambahPengiriman(A *arrdeliv,n *int){
 	}
 }
 
-func printdata(A arrdeliv,n int){
-	//I.S Terdefinisi array A sebanyak n
-	//F.S Data pengiriman diprint
-	fmt.Println("Data pengiriman : ")
-	for i := 1; i <= n; i++ {
-		fmt.Printf("Id : %d | Nama penerima : %s | Alamat : %s | Status pengiriman : %s ",A[i].id,A[i].namaPenerima,A[i].alamat,A[i].status)
-		fmt.Println()
+func printdata(A arrdeliv, n int) {
+	// I.S Terdefinisi array A sebanyak n
+	// F.S Data pengiriman diprint dalam bentuk tabel yang rapi
+
+	fmt.Println("Data pengiriman:")
+	fmt.Printf("%-4s | %-15s | %-30s | %-15s\n", "Id", "Nama Penerima", "Alamat", "Status Pengiriman")
+	fmt.Println("-----------------------------------------------------------------------------")
+	for i := 1; i <= n; i++ { 
+		fmt.Printf("%-4d | %-15s | %-30s | %-15s\n", A[i].id, A[i].namaPenerima, A[i].alamat, A[i].status)
 	}
+	fmt.Println("-----------------------------------------------------------------------------")
 }
 
 func editData(A *arrdeliv, n int){
@@ -221,12 +230,14 @@ func printStatusDicari(A arrdeliv,n int,x string){
 	var pilih string
 	menu = true
 	for menu {
+		fmt.Printf("%-4s | %-15s | %-30s | %-15s\n", "Id", "Nama Penerima", "Alamat", "Status Pengiriman")
+		fmt.Println("-----------------------------------------------------------------------------")	
 		for i := 1; i <=n; i++ {
 			if A[i].status == x {
-				fmt.Printf("Id : %d | Nama penerima : %s | Alamat : %s | Status pengiriman : %s ",A[i].id,A[i].namaPenerima,A[i].alamat,A[i].status)
-				fmt.Println()
+				fmt.Printf("%-4d | %-15s | %-30s | %-15s\n", A[i].id, A[i].namaPenerima, A[i].alamat, A[i].status)
 			}
 		}
+		fmt.Println("-----------------------------------------------------------------------------")	
 		fmt.Print("Tekan X untuk keluar : ")
 		fmt.Scan(&pilih)
 		if pilih == "X" || pilih == "x" {
@@ -251,4 +262,21 @@ func sortir(A *arrdeliv, n int){
 		A[pass - 1] = A[idx]
 		A[idx] = temp
 	}
+}
+
+func clearline() {
+	//auto clear function
+    var cmd *exec.Cmd
+
+    if runtime.GOOS == "windows" {
+        cmd = exec.Command("cmd", "/c", "cls")
+    } else {
+        cmd = exec.Command("clear")
+    }
+
+    cmd.Stdout = os.Stdout
+
+    if err := cmd.Run(); err != nil {
+        fmt.Println("Failed to clear the screen:", err)
+    }
 }
