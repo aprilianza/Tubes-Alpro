@@ -102,9 +102,9 @@ func tambahPengiriman(A *arrdeliv,n *int){
 		A[*n].id = antrian
 		A[*n].namaPenerima = penerima
 		A[*n].alamat = alamatPenerima
-		fmt.Print("Apakah masih ingin menambah Pengiriman (Y/N) : ")
+		fmt.Print("Tekan apapun untuk manambah lagi (Tekan X untuk keluar) : ")
 		fmt.Scan(&tambah)
-		if tambah == "N" || tambah == "n" {
+		if tambah == "X" || tambah == "x" {
 			input = false
 		}
 	}
