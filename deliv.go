@@ -33,7 +33,7 @@ func main(){
 		}else if pilih == "4"{
 			cariStatus(listPengiriman,nPengiriman)
 		}else if pilih == "5" {
-			sortir(&listPengiriman,nPengiriman)
+			sortmenu(&listPengiriman,nPengiriman)
 		}else if pilih == "6" {
 			menu = false
 		}
@@ -246,9 +246,48 @@ func printStatusDicari(A arrdeliv,n int,x string){
 	}
 }
 
-func sortir(A *arrdeliv, n int){
+func sortmenu(A *arrdeliv,n int){
 	//I.S Terdefinisi array A sebanyak n
-	//F.S Array tersortir menurut id
+	//F.S Array tersortir secara menurun atau menaik menurut id
+	var menu bool
+	var pilih string
+	menu = true
+	fmt.Println("Sortir id secara : ")
+	fmt.Println("1. Asceding")
+	fmt.Println("2. Descending")
+	for menu{
+		fmt.Print("Masukan Pilihan : ")
+		fmt.Scan(&pilih)
+		if pilih == "1"{
+			sortAsc(A,n)
+			menu = false
+		}else if pilih == "2"{
+			sortDesc(A,n)
+			menu = false
+		}else{
+			fmt.Println("Pilihan berupa angka antara 1 dan 2")
+		}
+	}
+}
+
+func sortDesc(A *arrdeliv,n int){
+	//I.S Terdefinisi array A sebanyak n
+	//F.S Array tersortir menurun menurut id
+	var i,j int
+	var temp delivery
+	for i = 1; i < n; i++ {
+		j = i
+		temp = A[j+1]
+		for j>0 && A[j].id < temp.id {
+			A[j+1] = A[j]
+			j--
+		}
+		A[j+1] = temp
+	}
+}
+func sortAsc(A *arrdeliv, n int){
+	//I.S Terdefinisi array A sebanyak n
+	//F.S Array tersortir menaik menurut id
 	var pass,idx,i int
 	var temp delivery
 	for pass = 2; pass <= n; pass++ {
