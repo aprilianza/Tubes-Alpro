@@ -304,7 +304,6 @@ func sortAsc(A *arrdeliv, n int){
 }
 
 func clearline() {
-	//auto clear function
     var cmd *exec.Cmd
 
     if runtime.GOOS == "windows" {
