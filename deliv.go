@@ -43,7 +43,6 @@ func main(){
 func banner(){
 	fmt.Println("====================================")
 	fmt.Println("|                                  |")
-	fmt.Println("|        Chambre de la Food        |")
 	fmt.Println("|          Delivery Order          |")
 	fmt.Println("|                                  |")
 	fmt.Println("====================================")
@@ -309,12 +308,13 @@ func clearline() {
     if runtime.GOOS == "windows" {
         cmd = exec.Command("cmd", "/c", "cls")
     } else {
-        cmd = exec.Command("clear")
+        cmd = exec.Command("tput", "reset") 
     }
 
     cmd.Stdout = os.Stdout
+    cmd.Stderr = os.Stderr
 
     if err := cmd.Run(); err != nil {
-        fmt.Println("Failed to clear the screen:", err)
+        fmt.Println("gagal clear:", err)
     }
 }
